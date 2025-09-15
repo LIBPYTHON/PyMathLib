@@ -70,7 +70,7 @@
 
 ---
 
-### 🔹 `estadistica(datos, modo)`
+### 🔹 `statistics(data, mode)`
 
 - **Parameters**:
   - `datos` : `list[int|float]`  

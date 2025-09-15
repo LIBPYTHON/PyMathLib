@@ -1,7 +1,6 @@
 # PyMathLib
 
-Methods:
-Polynomials:
+
 PolyAddition
 
 Parameters: polynomial1, polynomial2 (they must be lists, with int and float items).
@@ -38,16 +37,13 @@ Parameters: polynomial, n. One must be a list and the other one must be an int o
 Returns: Returns a polynomial.
 Description: It powers the polynomial to "n".
 Equations:
-1rst Degree
 
-Parameters:**
-Returns:**
-Description:**
 2nd Degree
 
 Parameters: Polynomial. It must be a list (with only int / float items).
 Returns: Returns a tuple with the two results.
 Description: It computes the quadratic formula, and returns x1 (+ result) and x2 (- result).
+
 3rt Degree and more
 
 Parameters: Polynomial. It must be a list (with only int / float items)

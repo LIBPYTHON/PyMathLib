@@ -91,7 +91,6 @@ print(PolyMultiplication([1, 1], [1, -1]))  # [1, 0, -1]
 # ➤ División: (x^2 - 1) ÷ (x - 1)
 print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]
 
-
 ### 🔹 `estadistica(datos, modo)`
 
 - **Parameters**:
@@ -131,3 +130,4 @@ print(estadistica(data, "desv"))     # 2.0
 print(estadistica(data, "max"))      # 9
 print(estadistica(data, "min"))      # 2
 print(estadistica(data, "other"))    # "Modo no reconocido"
+

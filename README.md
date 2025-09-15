@@ -90,3 +90,44 @@ print(PolyMultiplication([1, 1], [1, -1]))  # [1, 0, -1]
 
 # ➤ División: (x^2 - 1) ÷ (x - 1)
 print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]
+
+
+### 🔹 `estadistica(datos, modo)`
+
+- **Parameters**:
+  - `datos` : `list[int|float]`  
+    List of numeric values to perform the statistical calculation on.
+  - `modo` : `str`  
+    Type of statistical operation to perform. Allowed values:
+    - `"media"` : calculates the arithmetic mean.
+    - `"mediana"` : calculates the median.
+    - `"moda"` : calculates the mode(s), returns a list.
+    - `"varianza"` : calculates the population variance.
+    - `"desv"` : calculates the population standard deviation.
+    - `"max"` : returns the maximum value.
+    - `"min"` : returns the minimum value.
+
+- **Returns**:
+  - `float` or `list` depending on the mode.
+    - `"moda"` returns a list of values.
+    - `"media"`, `"mediana"`, `"varianza"`, `"desv"`, `"max"`, `"min"` return a single number (`float`).
+
+- **Description**:
+  This function performs basic statistical calculations on a list of data.  
+  The result depends on the value of `modo`. If an unrecognized mode is provided, it returns `"Modo no reconocido"`.
+
+---
+
+### 🔹 Usage Examples
+
+```python
+data = [2, 4, 4, 4, 5, 5, 7, 9]
+
+print(estadistica(data, "media"))    # 5.0
+print(estadistica(data, "mediana"))  # 4.5
+print(estadistica(data, "moda"))     # [4]
+print(estadistica(data, "varianza")) # 4.0
+print(estadistica(data, "desv"))     # 2.0
+print(estadistica(data, "max"))      # 9
+print(estadistica(data, "min"))      # 2
+print(estadistica(data, "other"))    # "Modo no reconocido"

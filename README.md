@@ -1,51 +1,97 @@
-# PyMathLib
+# 📘 Polynomial & Equation Methods
 
+## ⚡ Polynomials
 
-PolyAddition
+### 🔹 `PolyAddition(polynomial1, polynomial2)`
+- **Parameters**:  
+  - `polynomial1` *(list[int|float])*  
+  - `polynomial2` *(list[int|float])*  
+- **Returns**: `list` → Un polinomio resultante.  
+- **Description**: Suma dos polinomios.  
 
-Parameters: polynomial1, polynomial2 (they must be lists, with int and float items).
-Returns: Returns a polynomial
-Description: The function adds 2 polynomials.
-PolySubtraction
+### 🔹 `PolySubtraction(polynomial1, polynomial2)`
+- **Parameters**:  
+  - `polynomial1` *(list[int|float])*  
+  - `polynomial2` *(list[int|float])*  
+- **Returns**: `list` → Un polinomio resultante.  
+- **Description**: Resta dos polinomios (**el orden es importante**).  
 
-Parameters: *polynomial1, polynomial2 (They must be lists, with int and float items).
-Returns: Returns a polynomial.
-Description: The function subtracts 2 polynomials (the order is important!).
-PolyMultiplication
+### 🔹 `PolyMultiplication(polynomial1, polynomial2)`
+- **Parameters**:  
+  - `polynomial1` *(list[int|float] | int | float)*  
+  - `polynomial2` *(list[int|float] | int | float)*  
+- **Restrictions**: No se permiten dos números simples como entrada.  
+- **Returns**: `list` → Un polinomio resultante.  
+- **Description**: Multiplica dos polinomios, o un polinomio con un escalar.  
 
-Parameters: polynomial1, polynomial2. They can be both lists (with int and float items), or one of them a list and the other an int / float, but they cannot be only two numbers.
-Returns: Returns a polynomial.
-Description: Multiplicates 2 polynomials, or multiplicates a polynomial with a number.
-PolyDivision
+### 🔹 `PolyDivision(polynomial1, polynomial2)`
+- **Parameters**:  
+  - `polynomial1` *(list[int|float] | int | float)*  
+  - `polynomial2` *(list[int|float] | int | float)*  
+- **Restrictions**: No se permiten dos números simples como entrada. `polynomial2` no puede ser 0.  
+- **Returns**: `list` → Un polinomio resultante.  
+- **Description**: Divide un polinomio entre otro, o un polinomio entre un escalar.  
 
-Parameters: polynomial1, polynomial2. They can be both lists (with int and float items), or one of them a list and the other an int / float, but they cannot be only two numbers. (Order is important!) (polynomial2 cannot be 0).
-Returns: Returns a polynomial.
-Description: Divides 2 polynomials, or divides a polynomial with a number.
-PolyRoot
+### 🔹 `PolyRoot(polynomial)`
+- **Parameters**:  
+  - `polynomial` *(list[int|float])*  
+- **Returns**: `list` → Raíces del polinomio.  
+- **Description**: Calcula las raíces de un polinomio dado.  
 
-Parameters: polynomial. It must be a list, with int and float items.
-Returns: Returns an array.
-Description: It computes the roots of a given polynomial.
-PolyRuffini
+### 🔹 `PolyRuffini(polynomial, independentTerm)`
+- **Parameters**:  
+  - `polynomial` *(list[int|float])*  
+  - `independentTerm` *(int | float)*  
+- **Returns**: `tuple` → `(polynomial, remainder)`  
+- **Description**: Aplica la **regla de Ruffini** para dividir un polinomio entre `(x - independentTerm)`.  
 
-Parameters: polynomial, independentTerm. One must be a list and the other one must be an int or float item.
-Returns: Returns a tuple with a polynomial (0) and rest (1).
-Description: It computes the Ruffini rule.
-PolyPow
+### 🔹 `PolyPow(polynomial, n)`
+- **Parameters**:  
+  - `polynomial` *(list[int|float])*  
+  - `n` *(int | float)*  
+- **Returns**: `list` → Polinomio elevado a la potencia `n`.  
+- **Description**: Eleva un polinomio a la potencia `n`.  
 
-Parameters: polynomial, n. One must be a list and the other one must be an int or float item.
-Returns: Returns a polynomial.
-Description: It powers the polynomial to "n".
-Equations:
+---
 
-2nd Degree
+## ⚡ Equations
 
-Parameters: Polynomial. It must be a list (with only int / float items).
-Returns: Returns a tuple with the two results.
-Description: It computes the quadratic formula, and returns x1 (+ result) and x2 (- result).
+### 🔹 1st Degree
+- **Parameters**: coeficientes `a`, `b`  
+- **Returns**: `float` → La solución de la ecuación lineal.  
+- **Description**: Resuelve ecuaciones de primer grado (`ax + b = 0`).  
 
-3rt Degree and more
+### 🔹 2nd Degree
+- **Parameters**:  
+  - `polynomial` *(list[int|float])* → Debe tener forma `[a, b, c]`  
+- **Returns**: `tuple` → `(x1, x2)`  
+- **Description**: Aplica la fórmula cuadrática y devuelve las dos soluciones.  
 
-Parameters: Polynomial. It must be a list (with only int / float items)
-Returns: It returns an array with all the possible results.
-Description: It computes it using ruffini and using custom index roots.
+### 🔹 3rd Degree and more
+- **Parameters**:  
+  - `polynomial` *(list[int|float])*  
+- **Returns**: `list` → Todas las raíces reales/posibles.  
+- **Description**: Calcula las raíces de un polinomio de grado ≥ 3 usando **Ruffini** y búsqueda de raíces por aproximación.  
+
+---
+
+## 📌 Ejemplos de uso
+
+```python
+# Polinomios representados como listas de coeficientes
+# [a, b, c] => ax^2 + bx + c
+
+# Ejemplo: x^2 - 5x + 6 = 0
+poly = [1, -5, 6]
+
+# ➤ Raíces cuadráticas
+print(PolyRoot(poly))   # [2.0, 3.0]
+
+# ➤ Suma: (x^2 + 2x + 1) + (x^2 - 1)
+print(PolyAddition([1, 2, 1], [1, 0, -1]))  # [2, 2, 0]
+
+# ➤ Multiplicación: (x + 1)(x - 1) = x^2 - 1
+print(PolyMultiplication([1, 1], [1, -1]))  # [1, 0, -1]
+
+# ➤ División: (x^2 - 1) ÷ (x - 1)
+print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]

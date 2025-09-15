@@ -56,11 +56,6 @@
 
 ## ⚡ Equations
 
-### 🔹 1st Degree
-- **Parameters**: coeficientes `a`, `b`  
-- **Returns**: `float` → La solución de la ecuación lineal.  
-- **Description**: Resuelve ecuaciones de primer grado (`ax + b = 0`).  
-
 ### 🔹 2nd Degree
 - **Parameters**:  
   - `polynomial` *(list[int|float])* → Debe tener forma `[a, b, c]`  

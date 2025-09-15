@@ -1,4 +1,4 @@
-# 📘 Polynomial & Equation Methods
+# 📘 PyMathLib
 
 ## ⚡ Polynomials
 

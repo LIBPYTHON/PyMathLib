@@ -70,27 +70,6 @@
 
 ---
 
-## 📌 Ejemplos de uso
-
-```python
-# Polinomios representados como listas de coeficientes
-# [a, b, c] => ax^2 + bx + c
-
-# Ejemplo: x^2 - 5x + 6 = 0
-poly = [1, -5, 6]
-
-# ➤ Raíces cuadráticas
-print(PolyRoot(poly))   # [2.0, 3.0]
-
-# ➤ Suma: (x^2 + 2x + 1) + (x^2 - 1)
-print(PolyAddition([1, 2, 1], [1, 0, -1]))  # [2, 2, 0]
-
-# ➤ Multiplicación: (x + 1)(x - 1) = x^2 - 1
-print(PolyMultiplication([1, 1], [1, -1]))  # [1, 0, -1]
-
-# ➤ División: (x^2 - 1) ÷ (x - 1)
-print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]
-
 ### 🔹 `estadistica(datos, modo)`
 
 - **Parameters**:
@@ -114,6 +93,28 @@ print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]
 - **Description**:
   This function performs basic statistical calculations on a list of data.  
   The result depends on the value of `modo`. If an unrecognized mode is provided, it returns `"Modo no reconocido"`.
+
+
+## 📌 Ejemplos de uso
+
+```python
+# Polinomios representados como listas de coeficientes
+# [a, b, c] => ax^2 + bx + c
+
+# Ejemplo: x^2 - 5x + 6 = 0
+poly = [1, -5, 6]
+
+# ➤ Raíces cuadráticas
+print(PolyRoot(poly))   # [2.0, 3.0]
+
+# ➤ Suma: (x^2 + 2x + 1) + (x^2 - 1)
+print(PolyAddition([1, 2, 1], [1, 0, -1]))  # [2, 2, 0]
+
+# ➤ Multiplicación: (x + 1)(x - 1) = x^2 - 1
+print(PolyMultiplication([1, 1], [1, -1]))  # [1, 0, -1]
+
+# ➤ División: (x^2 - 1) ÷ (x - 1)
+print(PolyDivision([1, 0, -1], [1, -1]))    # [1, 1]
 
 ---
 

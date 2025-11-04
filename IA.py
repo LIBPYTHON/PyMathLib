@@ -1,70 +1,64 @@
-# poly_teacher.py
+# poly_explainer_universal.py
 import os
 import openai
-from functools import wraps
+
+# Importamos tus funciones ya existentes
+from PyPil.Polinomials.addition import addition
+from PyPil.Polinomials.subtraction import subtraction
+from PyPil.Polinomials.multiplication import multiplication
+from PyPil.Polinomials.division import division
+from PyPil.Polinomials.ruffini import ruffini
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def pretty_polynomial(p):
-    if isinstance(p, str):
-        return p
-    if isinstance(p, (list, tuple)):
-        terms = []
-        deg = len(p) - 1
-        for i, c in enumerate(p):
-            if c == 0:
-                deg -= 1
-                continue
-            power = deg - i
-            coeff = str(c)
-            if power == 0:
-                terms.append(f"{coeff}")
-            elif power == 1:
-                terms.append(f"{coeff}x")
-            else:
-                terms.append(f"{coeff}x^{power}")
-        return " + ".join(terms) if terms else "0"
-    return str(p)
+def explain_polynomial_operation(operation_name, *args, model="gpt-5-mini"):
+    """
+    Usa las funciones ya creadas de PyPil.Polinomials para calcular el resultado,
+    y genera una explicación paso a paso con ChatGPT.
+    """
 
-def explain_polynomial_step_by_step(polynomial, solution, model="gpt-5-mini", temperature=0.0, max_tokens=800):
-    poly_text = pretty_polynomial(polynomial)
+    # Ejecutamos la operación real según el nombre indicado
+    if operation_name == "addition":
+        result = addition(*args)
+    elif operation_name == "subtraction":
+        result = subtraction(*args)
+    elif operation_name == "multiplication":
+        result = multiplication(*args)
+    elif operation_name == "division":
+        result = division(*args)
+    elif operation_name == "ruffini":
+        result = ruffini(*args)
+    else:
+        raise ValueError(f"Operació '{operation_name}' no reconeguda.")
+
+    # Creamos el mensaje que se enviará a ChatGPT
     prompt = (
-        "Ets un professor de matemàtiques. "
-        "Et dono un polinomi i la seva solució. "
-        "Explica PAS A PAS com arribar-hi, com si fossis un professor amb estudiants."
-        "\n\nPolinomi: " + poly_text +
-        "\nSolució donada: " + str(solution) +
-        "\n\nInstruccions:\n"
-        " - Dona tots els càlculs intermedis.\n"
-        " - Mostra operacions amb coeficients i desenvolupament algebraic.\n"
-        " - Cada pas ha de conduir exactament al resultat final.\n"
-        " - Explica amb claredat, com en una classe.\n"
-        "\nResposta en text pla:"
+        f"Ets un professor de matemàtiques.\n"
+        f"T'explico una operació amb polinomis realitzada amb Python.\n\n"
+        f"Operació: {operation_name}\n"
+        f"Polinomis d'entrada: {args}\n"
+        f"Resultat obtingut pel programa: {result}\n\n"
+        "Ara explica pas a pas com s'arriba a aquest resultat, "
+        "mostrant els càlculs intermedis i la lògica de cada pas, "
+        "com si fossis un professor explicant-ho a classe."
     )
 
+    # Llamada al model
     response = openai.ChatCompletion.create(
         model=model,
         messages=[
             {"role": "system", "content": "Ets un professor de matemàtiques que explica pas a pas."},
             {"role": "user", "content": prompt}
         ],
-        temperature=temperature,
-        max_tokens=max_tokens
+        temperature=0.1,
+        max_tokens=900
     )
 
-    return response["choices"][0]["message"]["content"].strip()
+    explanation = response["choices"][0]["message"]["content"].strip()
 
-def auto_explain_polynomial(func):
-    """Decorador universal: aplica explicació pas a pas a qualsevol funció de polinomis"""
-    @wraps(func)
-    def wrapper(*args, explain=True, **kwargs):
-        result = func(*args, **kwargs)
-        if explain:
-            try:
-                polynomial_text = f"Operació: {func.__name__}, Paràmetres: {args} {kwargs}"
-                explanation = explain_polynomial_step_by_step(polynomial_text, result)
-                return {"result": result, "explanation": explanation}
-            except Exception as e:
-                return {"result": result, "explanation": f"No s'ha pogut generar explicació: {e}"}
-        return {"result": result}
-    return wrapper
+    return {
+        "operation": operation_name,
+        "inputs": args,
+        "result": result,
+        "explanation": explanation
+    }

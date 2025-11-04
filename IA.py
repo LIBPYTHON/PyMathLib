@@ -2,10 +2,10 @@
 import openai
 from typing import Optional, List
 
-# 🔹 Importamos tus funciones desde tu librería
+
 from PyMathLib import Polynomials as poly
 
-# 🔹 Configura tu clave de OpenAI
+
 openai.api_key = "TU_API_KEY_AQUI"  # Reemplaza con tu clave
 
 def explain_with_ai(operation: str,
@@ -20,7 +20,6 @@ def explain_with_ai(operation: str,
     para explicar los pasos y el resultado.
     """
 
-    # 1️⃣ Ejecutar la función real de tu librería
     result = None
     raw_steps = []
 
@@ -65,7 +64,6 @@ def explain_with_ai(operation: str,
     else:
         raise ValueError(f"Operación no reconocida: {operation}")
 
-    # 2️⃣ Preparamos el prompt para la IA
     prompt = f"""
 Eres un profesor de matemáticas explicando paso a paso cómo se realiza
 la operación '{operation}' con polinomios a un estudiante de nivel {nivel}.
@@ -85,7 +83,6 @@ de manera comprensible y motivadora para el estudiante.
 Incluye ejemplos o analogías simples si son útiles.
 """
 
-    # 3️⃣ Llamamos a la IA para transformar los datos en explicación didáctica
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",  # Usa gpt-4o o gpt-5 si lo tienes disponible
         messages=[{"role": "user", "content": prompt}],

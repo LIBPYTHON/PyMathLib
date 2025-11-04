@@ -1,15 +1,13 @@
 # poly_teacher.py
 import os
 import openai
+from functools import wraps
 
-# Posa la teva clau d'API a la variable d'entorn OPENAI_API_KEY
-# o substitueix directament aquí (no recomanat per seguretat).
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def pretty_polynomial(p):
     if isinstance(p, str):
         return p
-    # suposem llista de coeficients de major a menor grau
     if isinstance(p, (list, tuple)):
         terms = []
         deg = len(p) - 1
@@ -32,16 +30,16 @@ def explain_polynomial_step_by_step(polynomial, solution, model="gpt-5-mini", te
     poly_text = pretty_polynomial(polynomial)
     prompt = (
         "Ets un professor de matemàtiques. "
-        "T'explico el següent problema i la seva solució. "
-        "Ara, explica PAS A PAS com arribar a la solució, com si fossis un professor: "
+        "Et dono un polinomi i la seva solució. "
+        "Explica PAS A PAS com arribar-hi, com si fossis un professor amb estudiants."
         "\n\nPolinomi: " + poly_text +
         "\nSolució donada: " + str(solution) +
-        "\n\nInstruccions clares per al model:\n"
-        " - Dona tots els passos numèrics i algebraics necessaris.\n"
-        " - Mostra càlculs intermedis (operacions amb coeficients, divisions, multiplicacions, etc.).\n"
-        " - Assegura't que la seqüència de passos condueix exactament a la solució donada.\n"
-        " - Evita explicar conceptes innecessaris; centra't en el procediment per arribar a la solució.\n"
-        "\nResposta en text pla, pas a pas:"
+        "\n\nInstruccions:\n"
+        " - Dona tots els càlculs intermedis.\n"
+        " - Mostra operacions amb coeficients i desenvolupament algebraic.\n"
+        " - Cada pas ha de conduir exactament al resultat final.\n"
+        " - Explica amb claredat, com en una classe.\n"
+        "\nResposta en text pla:"
     )
 
     response = openai.ChatCompletion.create(
@@ -54,6 +52,19 @@ def explain_polynomial_step_by_step(polynomial, solution, model="gpt-5-mini", te
         max_tokens=max_tokens
     )
 
-    # Extraiem el text retornat pel model
-    text = response["choices"][0]["message"]["content"].strip()
-    return text
+    return response["choices"][0]["message"]["content"].strip()
+
+def auto_explain_polynomial(func):
+    """Decorador universal: aplica explicació pas a pas a qualsevol funció de polinomis"""
+    @wraps(func)
+    def wrapper(*args, explain=True, **kwargs):
+        result = func(*args, **kwargs)
+        if explain:
+            try:
+                polynomial_text = f"Operació: {func.__name__}, Paràmetres: {args} {kwargs}"
+                explanation = explain_polynomial_step_by_step(polynomial_text, result)
+                return {"result": result, "explanation": explanation}
+            except Exception as e:
+                return {"result": result, "explanation": f"No s'ha pogut generar explicació: {e}"}
+        return {"result": result}
+    return wrapper
